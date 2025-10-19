@@ -1,27 +1,32 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import mongoose from "./config/db.js"; // ✅ ye line important hai
+import mongoose from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import aiRoute from "./routes/aiRoutes.js";
 
-// Load env variables
 dotenv.config();
 
 const app = express();
 
-// Middleware
+// ✅ Proper middleware order
+app.use(
+  cors({
+    origin: "http://localhost:5173", // frontend URL
+    credentials: true, // allow cookies/auth headers
+  })
+);
 app.use(express.json());
-app.use(cors());
 
-// ✅ DB Connection check
+// ✅ DB connection
 const db = mongoose.connection;
 db.on("error", (error) => console.error("❌ DB Error:", error));
 db.once("open", () => console.log("✅ DB Connection is Open"));
 
-// Routes
+// ✅ Routes
 app.use("/api/auth", authRoutes);
+app.use('/api/ai', aiRoute);
 
-// Test Route
 app.get("/", (req, res) => {
   res.json({
     message: "🩺 HealthMate API is running successfully!",
@@ -29,17 +34,15 @@ app.get("/", (req, res) => {
   });
 });
 
-// Error Handler
+// ✅ Global error handler
 app.use((err, req, res, next) => {
   console.error("Error:", err.stack);
-  res.status(process.env.PORT).json({
+  res.status(500).json({
     success: false,
     message: err.message || "Internal Server Error",
   });
 });
 
-// Start Server
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

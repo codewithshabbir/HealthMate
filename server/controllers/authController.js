@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 import { response } from "../utils/helperFunction.js";
 import { sendMail } from "../utils/sendMail.js";
+import { emailVerificationLink } from "../email/emailVerificationLink.js";
+import "dotenv/config"
 
 export const signup = async (req, res) => {
   try {
@@ -19,14 +21,14 @@ export const signup = async (req, res) => {
     const newUser = await User.create({ name, email, password });
 
     // Create email verification token (expires in 1h)
-    const token = jwt.sign({ userId: newUser._id }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_ACCESS_SECRET, {
       expiresIn: "1h",
     });
 
     // Send verification email
-    const verifyLink = `${process.env.BASE_URL}/auth/verify-email/${token}`;
+    const verifyLink = `${process.env.BASE_URL}/verify-email/${token}`;
     await sendMail(
-      "Email Verification - CodeWithShabbir",
+      "Email Verification - Health Mate",
       email,
       emailVerificationLink(verifyLink)
     );
@@ -66,14 +68,8 @@ export const signin = async (req, res) => {
         .json(response(false, 403, "Please verify your email before login"));
     }
 
-    // Compare password
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-      return res.status(401).json(response(false, 401, "Invalid credentials"));
-    }
-
     // Create login token (expires in 2h)
-    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_ACCESS_SECRET, {
       expiresIn: "2h",
     });
 
@@ -98,7 +94,7 @@ export const verifyEmail = async (req, res) => {
   try {
     const { token } = req.params;
 
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     const user = await User.findById(decoded.userId);
 
     if (!user) {

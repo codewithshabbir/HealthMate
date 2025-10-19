@@ -1,6 +1,8 @@
-export const response = (statusCode, message) => {
-    const error = new Error();
-    error.statusCode = statusCode;
-    error.message = message;
-    return error;
-}
+export const response = (success, statusCode, message, data = null) => {
+  return {
+    success,
+    statusCode,
+    message,
+    data,
+  };
+};
