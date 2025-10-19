@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, message } from "antd";
-import InputField from "../../components/InputField";
-import PrimaryButton from "../../components/PrimaryButton";
+import InputField from "../../components/InputField.jsx";
+import PrimaryButton from "../../components/PrimaryButton.jsx";
 import { LockOutlined } from "@ant-design/icons";
 import { Link } from "react-router";
 

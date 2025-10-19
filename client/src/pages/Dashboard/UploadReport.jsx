@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Input, Select, Button, message, Card, Modal } from "antd";
-import PDFUploader from "../../components/PDFUploader";
-import { extractPDFText } from "../../utils/pdfUtils";
+import PDFUploader from "../../components/PDFUploader.jsx";
+import { extractPDFText } from "../../utils/pdfUtils.js";
 import axios from "axios";
 
 const { TextArea } = Input;
