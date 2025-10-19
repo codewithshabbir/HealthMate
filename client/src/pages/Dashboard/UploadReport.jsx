@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Select, Button, message, Card } from "antd";
+import { Form, Input, Select, Button, message, Card, Modal } from "antd";
 import PDFUploader from "../../components/PDFUploader";
 import { extractPDFText } from "../../utils/pdfUtils";
 import axios from "axios";
@@ -10,6 +10,8 @@ const { Option } = Select;
 const UploadReportForm = () => {
   const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [aiSummary, setAiSummary] = useState("");
 
   const onFinish = async (values) => {
     if (fileList.length === 0) {
@@ -40,8 +42,13 @@ const UploadReportForm = () => {
         }
       );
 
-      if (res.data?.success) {
+      if (res.data?.status === 200) {
         message.success(res.data.message || "Report submitted successfully.");
+
+        // Show modal with AI summary
+        setAiSummary(res.data.summery);
+        setModalVisible(true);
+
         setFileList([]);
       } else {
         message.error(res.data?.message || "Submission failed.");
@@ -100,6 +107,28 @@ const UploadReportForm = () => {
           </Form.Item>
         </Form>
       </Card>
+
+      {/* Ant Design Modal */}
+      <Modal
+        title="AI Summary"
+        open={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        footer={[
+          <Button
+            key="close"
+            type="primary"
+            onClick={() => setModalVisible(false)}
+          >
+            Close
+          </Button>,
+        ]}
+        width={800}
+      >
+        <div
+          style={{ maxHeight: "60vh", overflowY: "auto" }}
+          dangerouslySetInnerHTML={{ __html: aiSummary }}
+        />
+      </Modal>
     </div>
   );
 };

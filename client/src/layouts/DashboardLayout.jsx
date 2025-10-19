@@ -45,6 +45,7 @@ const DashboardLayout = () => {
     { key: "/upload-reports", icon: <UploadOutlined />, label: "Upload Report" },
     { key: "/vitals", icon: <HeartOutlined />, label: "Track Vitals" },
     { key: "/profile", icon: <UserOutlined />, label: "Profile" },
+    { key: "/profile", icon: <UserOutlined />, label: "Profile" },
   ];
 
   const handleToggle = () => {
