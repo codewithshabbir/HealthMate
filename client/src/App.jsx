@@ -24,6 +24,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
+      
 
         {/* 🔹 Admin Routes */}
         <Route element={<DashboardLayout />}>
