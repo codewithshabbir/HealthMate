@@ -1,24 +1,22 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router";
-import SignUp from "./pages/Auth/SignUp";
-import SignIn from "./pages/Auth/SignIn";
+import SignUp from "./pages/Auth/SignUp.jsx";
+import SignIn from "./pages/Auth/SignIn.jsx";
 import AuthLayout from "./layouts/AuthLayout";
-import DashboardLayout from "./layouts/DashboardLayout"
-import ForgotPassword from "./pages/Auth/ForgotPassword";
-import ResetPassword from "./pages/Auth/ResetPassword";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import EmailVerification from "./pages/auth/EmailVerification";
-import UploadReport from "./pages/Dashboard/UploadReport";
-import TrackVitals from "./pages/Dashboard/TrackVitals";
-import Profile from "./pages/Dashboard/Profile";
-import Reports from "./pages/Dashboard/Reports";
+import DashboardLayout from "./layouts/DashboardLayout.jsx"
+import ForgotPassword from "./pages/Auth/ForgotPassword.jsx";
+import ResetPassword from "./pages/Auth/ResetPassword.jsx";
+import Dashboard from "./pages/Dashboard/Dashboard.jsx";
+import EmailVerification from "./pages/auth/EmailVerification.jsx";
+import UploadReport from "./pages/Dashboard/UploadReport.jsx";
+import TrackVitals from "./pages/Dashboard/TrackVitals.jsx";
+import Profile from "./pages/Dashboard/Profile.jsx";
+import Reports from "./pages/Dashboard/Reports.jsx";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route></Route>
-
         <Route element={<AuthLayout />}>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
